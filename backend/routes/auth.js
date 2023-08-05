@@ -7,6 +7,8 @@ router.get('/',(req,res)=>{
         a:"this",
         number: 34
 
+        
+
     }
     res.json(obj)
 })
