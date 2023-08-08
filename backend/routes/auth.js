@@ -23,7 +23,9 @@ router.get('/',
         password: req.body.password,
         email: req.body.email,
 
-      }).then(user => res.json(user));
+      }).then(user => res.json(user))
+      .catch(err=> {console.log(err)
+      res.json({error: "Please enter a unique value.", message: err.message})})
   
 })
 
