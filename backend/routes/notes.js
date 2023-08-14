@@ -42,4 +42,34 @@ title,description,tag, user: req.user.id
   
 })
 
+//ROute 3 update a note using POSt '/api/auth/updatenote login reqiured
+router.put("/updatenote/:id",fetchuser,async (req, res) => {
+  const {title,description,tag} = req.body;
+
+  //craete a newnote object
+  const newNotes = {};
+  if(title){newNotes.title = title};
+  if(title){newNotes.description = description};
+  if(title){newNotes.tag = tag};
+ 
+
+  //find the note to be updated and update it
+  //const note = Note.findByIdAndUp();
+  let note = await Note.findById(req.params.id);
+  if(!note){return res.status(404).send("Not Found")}
+
+
+
+  //check user is same or not
+  if(note.user.toString() !== req.user.id){
+    return res.status(401).send("Not Allowed");
+  }
+
+
+  // if the upper validation is not working also then the note is exsist
+  note = await Note.findByIdAndUpdate(req.params.id,{$set: newNotes},{new:true})
+  res.json({note});
+
+  })
+
 module.exports = router;
